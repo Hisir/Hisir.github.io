@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<style>
+	*{margin: 0;padding:0;}
+
+	#box{
+		width: 100px;
+		height: 100px;
+		background: rgba(255,255,0,1);
+		position: absolute;
+		cursor: pointer;
+	}
+	</style>
+</head>
+<body>
+	<p>鼠标按住拖拽以下矩形</p>   
+	<div id="box"></div>  
+</body>
+	<script>
+		// 获取元素对象
+		var box = document.getElementById("box");
+
+		box.onmousedown = function(event) {
+			var event = event || window.event;
+
+			// 获取当前鼠标在矩形中的坐标点
+			var disX = event.clientX - box.offsetLeft;
+			var disY = event.clientY - box.offsetTop;
+
+			console.log(disX);
+			console.log(disY);
+
+			document.onmousemove = function(event){
+				var event = event || window.event;
+				// 获取元素的左偏移量和上偏移量
+				var x = event.clientX - disX;
+				var y = event.clientY - disY;
+				/*
+				移动时,鼠标在可视区的坐标位置 - 鼠标指针在元素内的坐标位置
+
+				= 元素实际移动的距离
+				*/
+				box.style.left = x + "px";
+				box.style.top = y + "px";
+			}
+			// 释放鼠标
+			document.onmouseup = function(){
+				// 将移动事件置为null
+				document.onmousemove = null;
+			}
+
+			// 阻止默认实践
+			return false;
+		}
+	</script>
+</html>
